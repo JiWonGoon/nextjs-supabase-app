@@ -48,6 +48,18 @@ export function SignUpForm({
         },
       });
       if (error) throw error;
+
+      // 프로필 자동 생성
+      try {
+        await fetch("/api/profile/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+      } catch (profileError) {
+        console.error("프로필 생성 실패:", profileError);
+      }
+
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
