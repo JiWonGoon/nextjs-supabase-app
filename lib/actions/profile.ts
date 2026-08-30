@@ -17,11 +17,7 @@ export async function getProfile(): Promise<Profile | null> {
     throw new Error("사용자 인증이 필요합니다");
   }
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+  const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
 
   if (error) {
     console.error("프로필 조회 에러:", error);

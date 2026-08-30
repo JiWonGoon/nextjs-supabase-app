@@ -41,10 +41,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: "프로필이 이미 존재합니다" });
       }
       console.error("프로필 생성 에러:", error);
-      return NextResponse.json(
-        { error: "프로필을 생성할 수 없습니다" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "프로필을 생성할 수 없습니다" }, { status: 500 });
     }
 
     return NextResponse.json(data, { status: 201 });

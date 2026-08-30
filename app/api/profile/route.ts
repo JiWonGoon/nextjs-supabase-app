@@ -17,18 +17,11 @@ export async function GET() {
       return NextResponse.json({ error: "사용자 인증이 필요합니다" }, { status: 401 });
     }
 
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
+    const { data, error } = await supabase.from("profiles").select("*").eq("id", user.id).single();
 
     if (error) {
       console.error("프로필 조회 에러:", error);
-      return NextResponse.json(
-        { error: "프로필을 조회할 수 없습니다" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "프로필을 조회할 수 없습니다" }, { status: 500 });
     }
 
     return NextResponse.json(data);
@@ -48,10 +41,7 @@ export async function PUT(request: NextRequest) {
     // 입력값 검증
     const validationResult = updateProfileSchema.safeParse(body);
     if (!validationResult.success) {
-      return NextResponse.json(
-        { error: validationResult.error.errors },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: validationResult.error.flatten() }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -76,10 +66,7 @@ export async function PUT(request: NextRequest) {
 
     if (error) {
       console.error("프로필 수정 에러:", error);
-      return NextResponse.json(
-        { error: "프로필을 수정할 수 없습니다" },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: "프로필을 수정할 수 없습니다" }, { status: 500 });
     }
 
     return NextResponse.json(data);
