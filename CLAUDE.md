@@ -127,6 +127,68 @@ if (!user) {
 - **Vercel 권장**: Supabase 통합으로 환경 변수 자동 설정
 - **로컬 개발**: `supabase start` (Supabase CLI) 또는 클라우드 프로젝트 사용
 
+## 코드 품질 도구
+
+### ESLint + Prettier
+
+모든 npm 스크립트는 코드 품질을 자동으로 관리합니다.
+
+**기본 명령어:**
+```bash
+# ESLint 검사
+npm run lint
+
+# ESLint 자동 수정
+npm run lint:fix
+
+# Prettier 포매팅 (자동 수정)
+npm run format
+
+# Prettier 검사 (수정 없음)
+npm run format:check
+
+# TypeScript 타입 검사
+npm run type-check
+```
+
+### 포매팅 규칙 (CLAUDE.md 기존 규칙과 동일)
+
+**Prettier 설정** (`.prettierrc.json`):
+- 라인 길이: 100자
+- 들여쓰기: 2칸 스페이스
+- 세미콜론: 필수
+- 따옴표: 더블 쿼트 (`"`)
+- Trailing comma: ES5 스타일
+
+### Lint-Staged
+
+**자동 실행 시점:**
+- 커밋 시 staged 파일에 대해 자동 실행
+- 파일별로 다음 작업 수행:
+  - TS/TSX: ESLint --fix → Prettier
+  - JSON/MD/CSS: Prettier
+
+**설정 파일:** `lint-staged.config.mjs`
+
+### 개발 흐름
+
+1. **코드 작성** → 파일 변경
+2. **검사 및 포매팅**:
+   ```bash
+   npm run lint:fix   # ESLint 자동 수정
+   npm run format     # Prettier 포매팅
+   npm run type-check # 타입 검사
+   ```
+3. **커밋** → lint-staged 자동 실행
+4. **푸시** → 프로덕션 배포
+
+### 설정 파일
+
+- `.prettierrc.json` - Prettier 설정
+- `.prettierignore` - Prettier 무시 패턴
+- `lint-staged.config.mjs` - lint-staged 설정
+- `eslint.config.mjs` - ESLint 설정 (Next.js 공식)
+
 ## 참고 사항
 
 - Next.js 15부터 일부 API 변경 가능: `node_modules/next/dist/docs/` 확인
