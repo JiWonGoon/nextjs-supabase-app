@@ -39,7 +39,7 @@ npm run lint
   - `auth/` - 인증 관련 페이지 (로그인, 회원가입, 비밀번호 관리)
   - `protected/` - 로그인 필수 페이지 (레이아웃으로 미들웨어 보호)
   - `api/` - 백엔드 API 엔드포인트
-  
+
 - **`lib/`** - 재사용 가능한 로직 및 유틸리티
   - `supabase/` - Supabase 클라이언트 인스턴스
     - `client.ts` - 브라우저 환경용 클라이언트
@@ -66,6 +66,7 @@ npm run lint
 ### Server Action 패턴
 
 프로필 관리는 Server Action으로 구현됨 (`lib/actions/profile.ts`):
+
 - `"use server"` 지시문으로 서버에서만 실행
 - 항상 인증 체크 수행
 - 데이터베이스 직접 접근 (보안: RLS 정책으로 보호)
@@ -87,6 +88,7 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ### 데이터베이스 스키마
 
 **profiles 테이블**
+
 - `id` (UUID, 기본키) - 사용자 ID
 - `email` (text)
 - `full_name` (text, nullable)
@@ -98,14 +100,18 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ### SSR 클라이언트 사용 시
 
 `lib/supabase/server.ts`의 `createClient()`는 매 함수 호출마다 새 인스턴스 생성:
+
 - Fluid Compute 사용 시 필수
 - 전역 변수에 저장 금지
 
 ### 에러 처리
 
 Server Action에서 인증 오류:
+
 ```typescript
-const { data: { user } } = await supabase.auth.getUser();
+const {
+  data: { user },
+} = await supabase.auth.getUser();
 if (!user) {
   throw new Error("사용자 인증이 필요합니다");
 }
