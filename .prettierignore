@@ -1,0 +1,31 @@
+# 의존성
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# 빌드 아티팩트
+.next
+dist
+build
+out
+coverage
+
+# 환경 설정
+.env
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# 기타
+.DS_Store
+*.pem
