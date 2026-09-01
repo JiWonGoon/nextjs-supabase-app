@@ -13,8 +13,10 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
+     * - api/auth/callback (OAuth 콜백)
+     * - auth/callback (로컬 개발용 OAuth 콜백)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/auth/callback|auth/callback|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

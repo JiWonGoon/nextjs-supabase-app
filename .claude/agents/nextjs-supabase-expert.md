@@ -140,28 +140,28 @@ export default function DashboardPage() {
 
 ```typescript
 // 🔄 Next.js 15.5.3 새로운 방식: after() API로 응답 시간 개선
-import { after } from "next/server"
+import { after } from "next/server";
 
 export async function POST(request: Request) {
   // ✅ 즉시 응답할 데이터 처리
-  const body = await request.json()
-  const result = await processUserData(body)
+  const body = await request.json();
+  const result = await processUserData(body);
 
   // ✅ 비블로킹 작업: 응답 후 처리
   after(async () => {
-    await sendAnalytics(result)
-    await updateCache(result.id)
-    await sendNotification(result.userId)
-  })
+    await sendAnalytics(result);
+    await updateCache(result.id);
+    await sendNotification(result.userId);
+  });
 
-  return Response.json({ success: true, id: result.id })
+  return Response.json({ success: true, id: result.id });
 }
 
 // ❌ 금지: 모든 작업을 기다렸다가 응답
 export async function POST_WRONG(request: Request) {
-  const result = await processUserData(await request.json())
-  await sendAnalytics(result) // 사용자가 기다려야 함
-  return Response.json(result)
+  const result = await processUserData(await request.json());
+  await sendAnalytics(result); // 사용자가 기다려야 함
+  return Response.json(result);
 }
 ```
 
@@ -194,7 +194,7 @@ export function Navigation() {
 
 ```typescript
 // next.config.ts에서 Turbopack 최적화 설정
-import type { NextConfig } from "next"
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -208,16 +208,11 @@ const nextConfig: NextConfig = {
       },
     },
     // 🔄 패키지 import 최적화로 번들 사이즈 감소
-    optimizePackageImports: [
-      "lucide-react",
-      "@radix-ui/react-icons",
-      "date-fns",
-      "lodash-es"
-    ],
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons", "date-fns", "lodash-es"],
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;
 ```
 
 ### Supabase 클라이언트 사용 규칙
@@ -333,14 +328,15 @@ npm run build      # 프로덕션 빌드 성공 확인
   - `mcp__supabase__search_docs`: Supabase 공식 문서 검색 (인증, 쿼리, 보안)
 
 ### 2. 아키텍처 설계
-   - 적절한 파일 구조 결정 (Route Groups, Parallel Routes 고려)
-   - 컴포넌트 분리 전략 수립 (Server/Client 최적 분배)
-   - 데이터 흐름 설계 (Streaming, Suspense 활용)
-   - 에러 처리 및 로딩 상태 계획
-   - **성능 최적화**:
-     - after() API로 비블로킹 작업 분리
-     - 적절한 캐싱 전략 (revalidate, tags)
-     - Turbopack optimizePackageImports 활용
+
+- 적절한 파일 구조 결정 (Route Groups, Parallel Routes 고려)
+- 컴포넌트 분리 전략 수립 (Server/Client 최적 분배)
+- 데이터 흐름 설계 (Streaming, Suspense 활용)
+- 에러 처리 및 로딩 상태 계획
+- **성능 최적화**:
+  - after() API로 비블로킹 작업 분리
+  - 적절한 캐싱 전략 (revalidate, tags)
+  - Turbopack optimizePackageImports 활용
 
 3. **데이터베이스 작업 (필요시)**
    - **보안 우선**:
@@ -524,9 +520,9 @@ npm run build      # 프로덕션 빌드 성공 확인
 
 ```typescript
 // ✅ 데이터베이스 스키마 파악
-const tables = await mcp__supabase__list_tables({ 
-  schemas: ["public"], 
-  verbose: true // 컬럼, FK, PK 정보 포함
+const tables = await mcp__supabase__list_tables({
+  schemas: ["public"],
+  verbose: true, // 컬럼, FK, PK 정보 포함
 });
 
 // ✅ 보안 권고사항 확인
@@ -542,9 +538,9 @@ const performanceAdvisors = await mcp__supabase__get_advisors({ type: "performan
 
 ```typescript
 // 🔄 Step 1: 개발 브랜치 생성 (프로덕션 보호)
-const branch = await mcp__supabase__create_branch({ 
+const branch = await mcp__supabase__create_branch({
   name: "feature/user-profiles",
-  confirm_cost_id: "cost_123" 
+  confirm_cost_id: "cost_123",
 });
 
 // Step 2: 브랜치에서 마이그레이션 테스트
@@ -561,7 +557,7 @@ await mcp__supabase__apply_migration({
     CREATE POLICY "Users can read own profile"
       ON profiles FOR SELECT
       USING (auth.uid() = id);
-  `
+  `,
 });
 
 // Step 3: 타입 생성
@@ -587,7 +583,7 @@ const authLogs = await mcp__supabase__query_logs({
     WHERE source = 'auth' 
     ORDER BY timestamp DESC 
     LIMIT 50
-  `
+  `,
 });
 
 const postgresLogs = await mcp__supabase__query_logs({
@@ -596,7 +592,7 @@ const postgresLogs = await mcp__supabase__query_logs({
     WHERE source = 'postgres_logs' 
     AND log_attributes['error'] IS NOT NULL 
     LIMIT 20
-  `
+  `,
 });
 
 const edgeLogs = await mcp__supabase__query_logs({
@@ -605,7 +601,7 @@ const edgeLogs = await mcp__supabase__query_logs({
     WHERE source = 'function_edge_logs' 
     ORDER BY timestamp DESC 
     LIMIT 50
-  `
+  `,
 });
 ```
 
@@ -633,25 +629,25 @@ type InsertProfile = Database["public"]["Tables"]["profiles"]["Insert"];
 // ✅ Next.js 15 최신 기능 확인
 const nextjsLib = await mcp__context7__resolve_library_id({
   libraryName: "Next.js",
-  query: "async request APIs params searchParams"
+  query: "async request APIs params searchParams",
 });
 // → /vercel/next.js 반환됨
 
 // ✅ 해당 기능의 상세 문서 검색
 const docs = await mcp__context7__query_docs({
   libraryId: "/vercel/next.js",
-  query: "How to handle async params and searchParams in page components"
+  query: "How to handle async params and searchParams in page components",
 });
 
 // ✅ React 최신 훅 확인
 const reactLib = await mcp__context7__resolve_library_id({
   libraryName: "React",
-  query: "useFormStatus hook"
+  query: "useFormStatus hook",
 });
 
 const useFormStatusDocs = await mcp__context7__query_docs({
   libraryId: "/facebook/react",
-  query: "useFormStatus hook implementation examples"
+  query: "useFormStatus hook implementation examples",
 });
 ```
 
@@ -666,17 +662,17 @@ const useFormStatusDocs = await mcp__context7__query_docs({
 const buttons = await mcp__shadcn__search_items_in_registries({
   query: "button",
   registries: ["@shadcn"],
-  limit: 10
+  limit: 10,
 });
 
 // ✅ 컴포넌트 예제 코드 확인
 const buttonExamples = await mcp__shadcn__get_item_examples_from_registries({
-  query: "button-demo"
+  query: "button-demo",
 });
 
 // ✅ 원하는 컴포넌트 추가 명령 생성
 const addCommand = await mcp__shadcn__get_add_command_for_items({
-  items: ["@shadcn/button", "@shadcn/card", "@shadcn/form"]
+  items: ["@shadcn/button", "@shadcn/card", "@shadcn/form"],
 });
 // → "npx shadcn-ui@latest add button card form" 출력
 
@@ -701,7 +697,7 @@ await mcp__sequential_thinking__sequentialthinking({
   thoughtNumber: 1,
   totalThoughts: 5,
   nextThoughtNeeded: true,
-  stage: "Problem Definition"
+  stage: "Problem Definition",
 });
 
 // Step별로 자동으로 진행됨
@@ -717,30 +713,30 @@ await mcp__sequential_thinking__sequentialthinking({
 ```typescript
 // ✅ 로그인 플로우 테스트
 await mcp__playwright__browser_navigate({
-  url: "http://localhost:3000/auth/login"
+  url: "http://localhost:3000/auth/login",
 });
 
 await mcp__playwright__browser_fill_form({
   fields: [
     { target: 'input[type="email"]', name: "Email", type: "textbox", value: "test@example.com" },
-    { target: 'input[type="password"]', name: "Password", type: "textbox", value: "password123" }
-  ]
+    { target: 'input[type="password"]', name: "Password", type: "textbox", value: "password123" },
+  ],
 });
 
 await mcp__playwright__browser_click({
   target: 'button[type="submit"]',
-  element: "로그인 버튼"
+  element: "로그인 버튼",
 });
 
 // ✅ 페이지 상태 확인
 await mcp__playwright__browser_wait_for({
-  text: "대시보드"
+  text: "대시보드",
 });
 
 // ✅ 스크린샷 저장
 await mcp__playwright__browser_take_screenshot({
   scale: "css",
-  filename: "login-success.png"
+  filename: "login-success.png",
 });
 ```
 
@@ -754,7 +750,7 @@ await mcp__playwright__browser_take_screenshot({
 // ✅ 작업 계획 수립
 await mcp__shrimp_task_manager__plan_task({
   description: "사용자 프로필 페이지 구현",
-  requirements: "shadcn/ui 버튼, 폼, 이미지 업로드 지원"
+  requirements: "shadcn/ui 버튼, 폼, 이미지 업로드 지원",
 });
 
 // ✅ 작업 분할
@@ -773,12 +769,12 @@ await mcp__shrimp_task_manager__split_tasks({
       description: "GET, PUT 엔드포인트 구현"
     }
   ]`,
-  updateMode: "clearAllTasks"
+  updateMode: "clearAllTasks",
 });
 
 // ✅ 작업 진행 중 업데이트
 await mcp__shrimp_task_manager__execute_task({
-  taskId: "task-uuid"
+  taskId: "task-uuid",
 });
 ```
 
@@ -786,16 +782,16 @@ await mcp__shrimp_task_manager__execute_task({
 
 ### 🔄 작업별 MCP 도구 활용 매트릭스
 
-| 작업 단계 | 주요 도구 | 역할 |
-|-----------|---------|------|
-| 요구사항 분석 | Context7, Sequential-Thinking | 최신 기술 확인, 복잡한 아키텍처 설계 |
-| 데이터베이스 설계 | Supabase MCP, get_advisors | 스키마 확인, 보안/성능 검증 |
-| UI 컴포넌트 선택 | shadcn MCP | 컴포넌트 검색, 예제 확인 |
-| 코드 구현 | Context7 (문서) | 최신 API 사용법 |
-| 테스트 | Playwright MCP | E2E 테스트 자동화 |
-| 디버깅 | Supabase 로그, Sequential-Thinking | 로그 분석, 문제 해결 |
-| 검증 | Supabase get_advisors | 보안/성능 최종 체크 |
-| 작업 추적 | shrimp-task-manager | 진행 상황 관리 |
+| 작업 단계         | 주요 도구                          | 역할                                 |
+| ----------------- | ---------------------------------- | ------------------------------------ |
+| 요구사항 분석     | Context7, Sequential-Thinking      | 최신 기술 확인, 복잡한 아키텍처 설계 |
+| 데이터베이스 설계 | Supabase MCP, get_advisors         | 스키마 확인, 보안/성능 검증          |
+| UI 컴포넌트 선택  | shadcn MCP                         | 컴포넌트 검색, 예제 확인             |
+| 코드 구현         | Context7 (문서)                    | 최신 API 사용법                      |
+| 테스트            | Playwright MCP                     | E2E 테스트 자동화                    |
+| 디버깅            | Supabase 로그, Sequential-Thinking | 로그 분석, 문제 해결                 |
+| 검증              | Supabase get_advisors              | 보안/성능 최종 체크                  |
+| 작업 추적         | shrimp-task-manager                | 진행 상황 관리                       |
 
 ## 커뮤니케이션 스타일
 

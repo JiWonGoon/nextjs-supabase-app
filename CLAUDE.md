@@ -134,6 +134,7 @@ if (!user) {
 모든 npm 스크립트는 코드 품질을 자동으로 관리합니다.
 
 **기본 명령어:**
+
 ```bash
 # ESLint 검사
 npm run lint
@@ -154,6 +155,7 @@ npm run type-check
 ### 포매팅 규칙 (CLAUDE.md 기존 규칙과 동일)
 
 **Prettier 설정** (`.prettierrc.json`):
+
 - 라인 길이: 100자
 - 들여쓰기: 2칸 스페이스
 - 세미콜론: 필수
@@ -163,6 +165,7 @@ npm run type-check
 ### Lint-Staged
 
 **자동 실행 시점:**
+
 - 커밋 시 staged 파일에 대해 자동 실행
 - 파일별로 다음 작업 수행:
   - TS/TSX: ESLint --fix → Prettier
