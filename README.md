@@ -6,7 +6,7 @@
 </a>
 
 <p align="center">
- The fastest way to build apps with Next.js and Supabase
+ 안전하고 확장 가능한 사용자 인증을 기반으로 한 Next.js + Supabase 스타터 키트
 </p>
 
 <p align="center">
@@ -19,21 +19,16 @@
 </p>
 <br/>
 
-## Features
+## 주요 기능
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Proxy
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+- **Next.js 15 App Router** - 최신 Next.js 아키텍처
+- **Supabase Auth** - 이메일/비밀번호 및 Google OAuth 통합
+- **SSR 기반 세션 관리** - HTTP-only 쿠키를 통한 안전한 세션
+- **TypeScript** - 완전한 타입 안정성
+- **shadcn/ui + Tailwind CSS** - 모던한 UI 컴포넌트
+- **다크/라이트 모드** - next-themes 지원
+- **Vercel 배포** - 원클릭 배포 가능
+- **ESLint + Prettier** - 코드 품질 관리
 
 ## Demo
 
