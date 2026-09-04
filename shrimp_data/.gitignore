@@ -1,6 +1,7 @@
 # Temporary files
 *.tmp
 *.log
+WebGUI.md
 
 # OS files
 .DS_Store
