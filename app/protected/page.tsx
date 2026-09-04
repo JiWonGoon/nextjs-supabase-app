@@ -13,36 +13,6 @@ async function UserDetails() {
     redirect("/auth/login");
   }
 
-  // 프로필 자동 생성 시도
-  const user = data.claims;
-  try {
-    const {
-      data: { user: authUser },
-    } = await supabase.auth.getUser();
-
-    if (authUser) {
-      const { data: existingProfile } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("id", authUser.id)
-        .single();
-
-      if (!existingProfile) {
-        await supabase.from("profiles").insert([
-          {
-            id: authUser.id,
-            email: authUser.email,
-            full_name: authUser.user_metadata?.full_name || null,
-            avatar_url: authUser.user_metadata?.avatar_url || null,
-          },
-        ]);
-        console.log("프로필 자동 생성됨:", authUser.email);
-      }
-    }
-  } catch (err) {
-    console.error("프로필 생성 오류:", err);
-  }
-
   return JSON.stringify(data.claims, null, 2);
 }
 
