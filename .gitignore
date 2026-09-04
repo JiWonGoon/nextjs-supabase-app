@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local task management
+shrimp_data/WebGUI.md
+shrimp_data/memory/
