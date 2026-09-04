@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-Next.js 15 + Supabase 스타터 키트입니다. 사용자 인증, 프로필 관리, 다크 모드를 지원하는 풀스택 앱입니다.
+Next.js 15 + Supabase 스타터 키트입니다. 안전하고 확장 가능한 사용자 인증 시스템을 기반으로 한 풀스택 앱입니다. 다크 모드를 지원합니다.
 
 ## 기술 스택
 
@@ -45,7 +45,6 @@ npm run lint
     - `client.ts` - 브라우저 환경용 클라이언트
     - `server.ts` - 서버/서버 컴포넌트용 클라이언트 (쿠키 기반 세션)
     - `proxy.ts` - 프록시를 통한 토큰 갱신
-  - `actions/` - Server Action 함수들 (프로필 CRUD)
   - `types/` - TypeScript 타입 정의
   - `utils.ts` - 유틸리티 함수
 
@@ -53,7 +52,6 @@ npm run lint
   - `ui/` - shadcn/ui 컴포넌트들
   - `auth-button.tsx`, `logout-button.tsx` - 인증 UI
   - `login-form.tsx`, `sign-up-form.tsx` - 폼 컴포넌트
-  - `profile-form.tsx` - 프로필 수정 폼
 
 ## 아키텍처 핵심
 
@@ -65,11 +63,11 @@ npm run lint
 
 ### Server Action 패턴
 
-프로필 관리는 Server Action으로 구현됨 (`lib/actions/profile.ts`):
+필요한 백엔드 로직은 Server Action으로 구현합니다:
 
 - `"use server"` 지시문으로 서버에서만 실행
 - 항상 인증 체크 수행
-- 데이터베이스 직접 접근 (보안: RLS 정책으로 보호)
+- 데이터베이스 직접 접근 가능
 
 ### 라우트 보호
 
@@ -87,13 +85,14 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 
 ### 데이터베이스 스키마
 
-**profiles 테이블**
+이 스타터킷은 Supabase의 기본 `auth.users` 테이블을 사용합니다:
 
-- `id` (UUID, 기본키) - 사용자 ID
-- `email` (text)
-- `full_name` (text, nullable)
-- `created_at` (timestamp)
-- `updated_at` (timestamp)
+- `id` (UUID) - 사용자 ID
+- `email` (text) - 사용자 이메일
+- `user_metadata` (jsonb) - 추가 사용자 정보 (프로필 이름, 아바타 등)
+- `created_at` (timestamp) - 가입 시간
+
+프로필 확장 기능이 필요한 경우, `profiles` 테이블을 추가로 생성하여 사용할 수 있습니다.
 
 ## 개발 주의사항
 
@@ -119,8 +118,8 @@ if (!user) {
 
 ### 타입 안정성
 
-- 모든 Server Action은 명시적 타입 정의 필요 (`lib/types/profile.ts` 참고)
-- `UpdateProfileInput`, `Profile` 등 인터페이스 사용
+- 모든 Server Action은 명시적 타입 정의 필요
+- `lib/types/` 디렉토리에 타입 정의 유지
 
 ## 배포
 
